@@ -1,26 +1,8 @@
-# BeerRecipePredict
+# Beer ABV Predict
 
-* **ABV**: Technically, alcohol by volume is defined as a standard measure of how much alcohol is contained in a given volume 
-  of an alcoholic beverage. It is defined as the number of milliliters (mL) of pure ethanol present in 100 mL of solution at 20°C (68°F).
-  The higher the ABV, the boozier a beer will be in its aroma and flavor.
-  
-* **IBU**: IBUs measure the parts per million of isohumulone found in a beer. 
-  Isohumulone is the acid found in hops that gives beer its distinct bitterness. 
-  Though the IBU scale can be used as a general guideline for taste, with lower 
-  IBUs corresponding to less bitterness and vice versa, 
-  it's important to note that malt and other flavors can mask the taste of bitterness in beer.
-  
-* **SRM:** While not quite as recognizable and widespread as alcohol by volume and international bittering units,
-  SRM or Standard Reference Method is about as close as the beer world comes to a unified way of gauging color.
-  
-* **OG:** Though a wee bit more granular than, say, the easily understood numbers of ABV, IBU and SRM, 
-  original gravity is defined as the relative density of the wort – the liquid that will ferment and become beer. 
-  That density revolves mostly around the quantity of fermentable sugars in the wort, which are fermented by the yeast 
-  and become alcohol. In terms of usefulness, OG is regarded as a guide to the alcoholic strength of the finished beer, 
-  but in a more brewer-friendly term.
-  
-* **FG:** If the fermentation is finished, the specific gravity is called the final gravity (abbreviated FG). 
-  For example, for a typical strength beer, OG could be 1.050 and FG could be 1.010.
+This is the second part of capstone project in Turing College.
+Model was trained on https://www.brewersfriend.com/ parameters: 
+IBU, SRM, OG, FG, beer type and can predict ABV of a beer.
 
 **Table of content:**
 * [Introduction](#introduction)
@@ -30,19 +12,23 @@
 
 ### Introduction
 
-The India Pale Ale (IPA) is a beer style of incredible popularity. Beer brewers have scrambled 
-in recent years to produce new variations of the style and fill shelves with IPAs. 
-As such, the purist definition of IPA as a slightly hoppier pale ale has been considerably stretched.
+Beer brewers have scrambled  in recent years to produce new variations of the beer styles. 
+As such, the purest definition of beer styles has been considerably stretched. When brewing your own beer
+there is no telling exactly what ABV will be present. Predicting ABV of yet to be beer can be 
+useful when producing in big quantities.
 
 ### Modeling 
 
-The model and its accompanying methods were created and trained using Jupyter Notebook in the Model directory.
+The model and its accompanying methods were created and trained using Jupyter Notebook in the Models directory.
 
 ### Usage
 
 ```/predict``` - Send a POST request to get the model prediction in JSON format.
-```/inferences``` - Send a GET request to get the last 10 model inferences in JSON format.
+```/last_requests``` - Route to return most recent requests and responses in 
+JSON format. Returns 10 as default but can be any number if specified.
 
+You can send the requests using a tool like 
+Postman or you can do it with programming language. Here is a Python example:
 ```
 import json
 import requests
@@ -51,10 +37,10 @@ data = json.dumps(
 {
     "inputs": [
         {
-            "OG":1.055, 
-            "FG":1.013,
-            "SMR": "19.44",
-            "IBU": "4.83",
+            "OG": 1.055, 
+            "FG": 1.013,
+            "SMR": 19.44,
+            "IBU": 4.83,
             "type": "Cream ale"
         }
     ]
