@@ -6,11 +6,9 @@ from decouple import config
 
 APP_MODEL_PATH_REG = config("APP_MODEL_PATH_REG")
 APP_MODEL_PATH_SCALE = config("APP_MODEL_PATH_SCALE")
-APP_MODEL_PATH_ENCODE = config("APP_MODEL_PATH_ENCODE")
 
 regressor = pickle.load(open(APP_MODEL_PATH_REG, "rb"))
 scaler = pickle.load(open(APP_MODEL_PATH_SCALE, "rb"))
-encoder = pickle.load(open(APP_MODEL_PATH_ENCODE, "rb"))
 
 def transform_data(df: pd.DataFrame) -> np.array:
     """This method prepares dataframe by encoding categorical features
@@ -18,15 +16,8 @@ def transform_data(df: pd.DataFrame) -> np.array:
     :param df: pandas Dataframe with feature columns
     :return: numpy array with processed features data
     """
-    categorical_encoded_data = encoder.transform(
-        df["type"].values
-    ).toarray()
-    scaled_numerical_data = scaler.transform(
-        df.drop("type", axis=1)
-    )
-    processed_data = np.concatenate(
-        (categorical_encoded_data, scaled_numerical_data), axis=1
-    )
+
+    processed_data = scaler.transform(df)
     return processed_data
 
 def process_input(request_data: str) -> np.array:
@@ -47,5 +38,5 @@ def predict(input_params) -> np.array:
     :return: predictions numpy array
     """
     predictions = regressor.predict(input_params)
-    predictions = np.maximum(5, predictions)
+    predictions = np.maximum(4, predictions)
     return predictions
