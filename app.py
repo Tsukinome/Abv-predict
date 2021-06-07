@@ -1,9 +1,13 @@
 from flask import Flask, request
 import json
-from Src.process import process_input, predict
+from Src.process import process_input
 from Heroku.database import Database
+from decouple import config
+import pickle
 
 database = Database()
+APP_MODEL_PATH_REG = config("APP_MODEL_PATH_REG")
+regressor = pickle.load(open(APP_MODEL_PATH_REG, "rb"))
 
 
 app = Flask(__name__)
@@ -26,7 +30,7 @@ def predict() -> str:
 
     try:
         input_params = process_input(user_input)
-        predictions = predict(input_params)
+        predictions = regressor.predict(input_params)
         output = json.dumps({"Predicted ABV": predictions.tolist()})
 
     except Exception as e:
@@ -59,8 +63,6 @@ def last_requests(records: int) -> list:
         )
 
     return json.dumps({"last_requests": retrieved_requests}), 200
-
-
 
 
 if __name__ == "__main__":
