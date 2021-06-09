@@ -2,7 +2,7 @@
 
 This is the second part of capstone project in Turing College.
 Model was trained on https://www.brewersfriend.com/ parameters: 
-IBU, SRM, OG, FG, beer type and can predict ABV of a beer.
+IBU, SRM, OG, FG and can predict ABV of a beer.
 
 **Table of content:**
 * [Introduction](#introduction)
@@ -40,14 +40,14 @@ data = json.dumps(
             "OG": 1.055, 
             "FG": 1.013,
             "SMR": 19.44,
-            "IBU": 4.83,
-            "type": "Cream ale"
+            "IBU": 4.83
         }
     ]
 })
 
-resp = requests.post('https://beer-predict.herokuapp.com/predict', data=data)
-print(resp.text)
+
+response = requests.get("http://127.0.0.1:5000/last_requests", json.dumps(data))
+print (f"response: {json.loads(response.content)}")
 
 ```
 

@@ -13,9 +13,10 @@ class Database:
 
     def create_database(self) -> None:
         """
-        Creates a new table that is to be used for storing predictions. If the table already exists, it is deleted and
-        a new table is initialized.
+        Creates a new table that is to be used for storing predictions.
+        If the table exists it is dropped and new table is created.
         """
+
         with self.__connection.cursor() as cur:
             cur.execute("DROP TABLE IF EXISTS Predictions;")
 
@@ -34,7 +35,6 @@ class Database:
     def create_record(self, request: str, response: str) -> None:
         """
         Inserts the input provided by the user and the output by the model to the table
-        :return:
         """
         with self.__connection.cursor() as cur:
             cur.execute(
@@ -49,7 +49,6 @@ class Database:
     def get_recent_records(self, records) -> list:
         """
         Returns the desired number of most recent results consisting in input-output pairs
-        :return:
         """
         with self.__connection.cursor() as cur:
             cur.execute(
