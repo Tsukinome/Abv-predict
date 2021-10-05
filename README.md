@@ -1,4 +1,4 @@
-# Beer ABV Predict
+# ABV Predict
 
 This is the second part of capstone project in Turing College.
 Model was trained on https://www.brewersfriend.com/ parameters: 
